@@ -44,7 +44,9 @@ class MLP(nn.Module):
         )
         self._output_layer = nn.Linear(hidden_sizes[-1], np.prod(out_shape))
 
-    def forward(self, inputs):
+    def forward(self, inputs, context=None):
+        if context is not None:
+            raise NotImplementedError()
         if inputs.shape[1:] != self._in_shape:
             raise ValueError(
                 "Expected inputs of shape {}, got {}.".format(
