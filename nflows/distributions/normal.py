@@ -174,7 +174,12 @@ class DiagonalNormal(Distribution):
         return log_prob
 
     def _sample(self, num_samples, context):
-        raise NotImplementedError()
+        if context is not None:
+            raise NotImplementedError()
+        x = torch.randn(num_samples, *self._shape, device=self._log_z.device)
+        x *= torch.exp(self.log_std_.reshape(self._shape))
+        x += self.mean_.reshape(self._shape)
+        return x
 
     def _mean(self, context):
         return self.mean
